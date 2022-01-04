@@ -3557,6 +3557,8 @@ self.C3_GetObjectRefTable = function () {
 		C3.Plugins.List,
 		C3.Plugins.progressbar,
 		C3.Plugins.Mouse,
+		C3.Plugins.System.Cnds.OnLayoutStart,
+		C3.Plugins.Text.Acts.SetText,
 		C3.Plugins.Button.Cnds.OnClicked,
 		C3.Plugins.Button.Acts.SetEnabled,
 		C3.Plugins.System.Acts.SetBoolVar,
@@ -3565,7 +3567,6 @@ self.C3_GetObjectRefTable = function () {
 		C3.Plugins.List.Cnds.CompareSelectedText,
 		C3.Plugins.Button.Acts.SetVisible,
 		C3.Plugins.Text.Acts.SetVisible,
-		C3.Plugins.Text.Acts.SetText,
 		C3.Plugins.System.Cnds.Compare,
 		C3.Plugins.System.Cnds.CompareBoolVar,
 		C3.Plugins.System.Acts.SubVar,
@@ -3610,6 +3611,7 @@ self.C3_JsPropNameTable = [
 	{Maintext: 0},
 	{Mouse: 0},
 	{Activitytext: 0},
+	{StoryText: 0},
 	{shrooms: 0},
 	{ssoup: 0},
 	{food: 0},
@@ -3720,16 +3722,16 @@ function or(l, r)
 }
 
 self.C3_ExpressionFuncs = [
+		p => {
+			const v0 = p._GetNode(0).GetVar();
+			return () => v0.GetValue();
+		},
 		() => 5,
 		() => "Nothing",
 		() => "Shroom Soup",
 		p => {
 			const v0 = p._GetNode(0).GetVar();
 			return () => (and((("Ingredients:" + "\n") + "Shrooms: "), v0.GetValue()) + " of 5");
-		},
-		p => {
-			const v0 = p._GetNode(0).GetVar();
-			return () => v0.GetValue();
 		},
 		() => 10,
 		p => {
@@ -3791,6 +3793,11 @@ self.C3_ExpressionFuncs = [
 			return () => (and((and("Gathering... (", n0.ExpObject()) + "/"), n1.ExpObject()) + ")");
 		},
 		p => {
+			const n0 = p._GetNode(0);
+			const n1 = p._GetNode(1);
+			return () => (and((and("Luring a Goblin... (", n0.ExpObject()) + "/"), n1.ExpObject()) + ")");
+		},
+		p => {
 			const v0 = p._GetNode(0).GetVar();
 			const v1 = p._GetNode(1).GetVar();
 			const v2 = p._GetNode(2).GetVar();
@@ -3818,6 +3825,7 @@ self.C3_ExpressionFuncs = [
 			const v0 = p._GetNode(0).GetVar();
 			return () => (and((("All you have is goblins so it's got to be Goblin Stock. Cannibalism is fun! This souped up soup will make your goblin gatherers last twice as long before going hungry. " + "\n") + "Cost: "), Math.pow(v0.GetValue(), 2)) + "goblin(s).");
 		},
+		() => "",
 		() => 2,
 		() => "You start whistling an ominous tune while gathering up those Shrooms.",
 		() => "That should be enough shrooms for a hearty Shroom Soup. You jot the recipe down into your cookbook.",
